@@ -6,7 +6,7 @@
 
 
 # vidtoolz
-Make vides using python. A plugin-based CLI toolset for editing, authering videos, built with python.
+Make videos using python. A plugin-based CLI toolset for editing, authering videos, built with python.
 
 **Overview**
 -----------
