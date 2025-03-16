@@ -16,6 +16,7 @@ vidtoolz is a collection of command-line tools designed to make videos and edit 
 After installing ``vidtoolz``, install any of the [following plugins](https://pypi.org/search/?q=vidtoolz).
 
 
+
 **VidToolz Plugins**
 
 | Command | Description |
@@ -30,7 +31,7 @@ After installing ``vidtoolz``, install any of the [following plugins](https://py
 | vidtoolz-apply-greenscreen | Overlay a greenscreen video on top of a video |
 
 
-To get help, just type
+To get help, just type ``vidtoolz`` or its shortcut ``vid`` to access the cli.
 
 ```bash
 vidtoolz --help 
@@ -69,7 +70,7 @@ optional arguments:
 ```
 
 
-To install a plugin, just type ``vidtoolz`` or its shortcut ``vid`` to access the cli.
+To install a plugin, just type 
 
 ```bash
 vid install vidtoolz-trim
