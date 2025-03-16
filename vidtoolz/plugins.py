@@ -1,22 +1,17 @@
 import pluggy
 from .hookspecs import vidtoolzSpec
-import pkg_resources
 import sys
 from runpy import run_module
 
 pm = pluggy.PluginManager("vidtoolz")
 pm.add_hookspecs(vidtoolzSpec)
 
-def load_plugins2():
-    if not getattr(sys, "_called_from_test", False):
-        for entry_point in pkg_resources.iter_entry_points("vidtoolz_plugins"):
-            plugin=entry_point.load()
-            pm.register(plugin)
 
 def load_plugins():
     if not getattr(sys, "_called_from_test", False):
         # Only load plugins if not running tests
         pm.load_setuptools_entrypoints("vidtoolz_plugins")
+
 
 def get_plugins(args):
     plugins = []

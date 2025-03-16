@@ -13,7 +13,67 @@ Make vides using python. A plugin-based CLI toolset for editing, authering video
 
 vidtoolz is a collection of command-line tools designed to make videos and edit videos easier. The project takes a plugin-based approach, allowing users to extend its functionality by creating custom plugins.
 
-There are few plugins that i am activiley using. I will soon add all of them here.
+After installing ``vidtoolz``, install any of the [following plugins](https://pypi.org/search/?q=vidtoolz).
+
+
+**VidToolz Plugins**
+
+| Command | Description |
+| --- | --- |
+| vidtoolz-beats | Get beats from a mp3 song |
+| vidtoolz-concat | Concat videos using ffmpeg |
+| vidtoolz-shorts | Create shorts from long form videos |
+| vidtoolz-trim | Trim video using ffmpeg |
+| vidtoolz-replace-audio | Replace audio for a video file |
+| vidtoolz-add-sound | Add sound to a video |
+| vidtoolz-add-text | Add text to a video file |
+| vidtoolz-apply-greenscreen | Overlay a greenscreen video on top of a video |
+
+
+To get help, just type
+
+```bash
+vidtoolz --help 
+```
+
+or
+
+```bash
+vid --help
+```
+This will show all the plugins installed.
+
+```bash
+usage: vid [-h]
+           {plugins,install,trim,addtext,chapters,beats,greenscreen,shorts,repaudio,addsound,concat}
+           ...
+
+Video Tools for editing videos using python
+
+positional arguments:
+ plugins              Get all listed plugins
+ install              Install plugins in the same environemnt as vidtoolz
+ trim                 Trim video using ffmpeg
+ addtext              Add text to a video file
+ chapters             Write formated youtube chapters with text inputs
+ beats                Get beats from a mp3 song
+ greenscreen          Apply greenscreen video on top of a video
+ shorts               Create shorts from long form videos
+ repaudio             Replace audio for a video file
+ addsound             Add sound to a video
+ concat               Concat videos using ffmpeg 
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+```
+
+
+To install a plugin, just type
+
+```bash
+vid install vidtoolz-trim
+```
 
 **Features**
 ------------
