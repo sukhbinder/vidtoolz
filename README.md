@@ -69,11 +69,13 @@ optional arguments:
 ```
 
 
-To install a plugin, just type
+To install a plugin, just type ``vidtoolz`` or its shortcut ``vid`` to access the cli.
 
 ```bash
 vid install vidtoolz-trim
 ```
+
+![vidtoolz-help](https://raw.githubusercontent.com/sukhbinder/vidtoolz/refs/heads/main/vidtoolz.gif)
 
 **Features**
 ------------
