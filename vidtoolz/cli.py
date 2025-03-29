@@ -45,10 +45,10 @@ def main():
     install_parser = subparser.add_parser(
         "install", description="Install plugins in the same environemnt as vidtoolz"
     )
-    install_parser.add_argument("--upgrade", action="store_true")
-    install_parser.add_argument("--editable", help="Edit mode for packages")
-    install_parser.add_argument("--force-reinstall", action="store_true")
-    install_parser.add_argument("--no-cache-dir", action="store_true")
+    install_parser.add_argument("-u", "--upgrade", action="store_true")
+    install_parser.add_argument("-e", "--editable", help="Edit mode for packages")
+    install_parser.add_argument("-fr", "--force-reinstall", action="store_true")
+    install_parser.add_argument("-ncd", "--no-cache-dir", action="store_true")
     install_parser.add_argument("packages", nargs="+")
     install_parser.set_defaults(func=install_cmd)
 
