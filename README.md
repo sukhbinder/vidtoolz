@@ -19,16 +19,23 @@ After installing ``vidtoolz``, install any of the [following plugins](https://py
 
 **VidToolz Plugins**
 
-| Command | Description |
-| --- | --- |
-| vidtoolz-beats | Get beats from a mp3 song |
-| vidtoolz-concat | Concat videos using ffmpeg |
-| vidtoolz-shorts | Create shorts from long form videos |
-| vidtoolz-trim | Trim video using ffmpeg |
-| vidtoolz-replace-audio | Replace audio for a video file |
-| vidtoolz-add-sound | Add sound to a video |
-| vidtoolz-add-text | Add text to a video file |
-| vidtoolz-apply-greenscreen | Overlay a greenscreen video on top of a video |
+| Plugins     | Description                                      |
+|-------------|--------------------------------------------------|
+| h2r         | Tools for Hum Hai Rahi channel                  |
+| trim        | Trim video using ffmpeg                         |
+| addtext     | Add text to a video file                        |
+| fadeinout   | Apply fade-in fade-out effects on videos        |
+| chapters    | Write formatted YouTube chapters with text inputs |
+| echo        | Apply noise reduction and echo effect           |
+| beats       | Get beats from an MP3 song                      |
+| greenscreen | Apply greenscreen video on top of a video       |
+| shorts      | Create shorts from long-form videos             |
+| intro       | Create intro video from a series of videos      |
+| repaudio    | Replace audio for a video file                  |
+| vignette    | Apply vignette on video                         |
+| volume      | Increase or decrease volume                     |
+| addsound    | Add sound to a video                            |
+| concat      | Concatenate videos using ffmpeg                 |
 
 
 To get help, just type ``vidtoolz`` or its shortcut ``vid`` to access the cli.
