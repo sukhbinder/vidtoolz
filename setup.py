@@ -12,7 +12,7 @@ def get_long_description():
 
 setup(
     name="vidtoolz",
-    version="0.0.2",
+    version="0.1.2",
     description="CLI tools for editing videos in python. A plugin based approach.",
     packages=find_packages(),
     long_description=get_long_description(),
