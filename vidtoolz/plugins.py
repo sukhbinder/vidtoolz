@@ -9,8 +9,14 @@ pm.add_hookspecs(vidtoolzSpec)
 
 DEFAULT_PLUGINS = ("vidtoolz.default_plugins.reverse",)
 
+_loaded = False
+
 
 def load_plugins():
+    global _loaded
+    if _loaded:
+        return
+    _loaded = True
     if not getattr(sys, "_called_from_test", False):
         # Only load plugins if not running tests
         pm.load_setuptools_entrypoints("vidtoolz_plugins")

@@ -16,7 +16,7 @@ def test_plugins(capsys):
     with mock.patch("sys.argv", ["vidtoolz", "plugins"]):
         main()
         captured = capsys.readouterr()
-        assert "No external plugins in env." in captured.out
+        assert "vidtoolz.default_plugins.reverse" in captured.out
 
 
 def test_invalid_command():
