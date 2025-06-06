@@ -19,23 +19,23 @@ After installing ``vidtoolz``, install any of the [following plugins](https://py
 
 **VidToolz Plugins**
 
-| Plugins     | Description                                      |
-|-------------|--------------------------------------------------|
-| h2r         | Tools for Hum Hai Rahi channel                  |
-| trim        | Trim video using ffmpeg                         |
-| addtext     | Add text to a video file                        |
-| fadeinout   | Apply fade-in fade-out effects on videos        |
-| chapters    | Write formatted YouTube chapters with text inputs |
-| echo        | Apply noise reduction and echo effect           |
-| beats       | Get beats from an MP3 song                      |
-| greenscreen | Apply greenscreen video on top of a video       |
-| shorts      | Create shorts from long-form videos             |
-| intro       | Create intro video from a series of videos      |
-| repaudio    | Replace audio for a video file                  |
-| vignette    | Apply vignette on video                         |
-| volume      | Increase or decrease volume                     |
-| addsound    | Add sound to a video                            |
-| concat      | Concatenate videos using ffmpeg                 |
+| Plugins                       | cli name    | Description                                     |
+|-------------------------------|-------------|-------------------------------------------------|
+| vidtoolz-hum-hai-rahi         | h2r         | Tools for Hum Hai Rahi channel                  |
+| vidtoolz-trim                 | trim        | Trim video using ffmpeg                         |
+| vidtoolz-add-text             | addtext     | Add text to a video file                        |
+| vidtoolz-apply-fadein-fadeout | fadeinout   | Apply fade-in fade-out effects on videos        |
+| vidtoolz-youtube-chapters     | chapters    | Write formatted YouTube chapters with text inputs |
+| vidtoolz-noise-and-echo       | echo        | Apply noise reduction and echo effect           |
+| vidtoolz-beats                | beats       | Get beats from an MP3 song                      |
+| vidtoolz-apply-greenscreen | greenscreen | Apply greenscreen video on top of a video       |
+| vidtoolz-shorts | shorts      | Create shorts from long-form videos             |
+| vidtoolz-intro | intro       | Create intro video from a series of videos      |
+| vidtoolz-replace-audio | repaudio    | Replace audio for a video file                  |
+| vidtoolz-vignette | vignette    | Apply vignette on video                         |
+| vidtoolz-volume | volume      | Increase or decrease volume                     |
+| vidtoolz-add-sound | addsound    | Add sound to a video                            |
+| vidtoolz-concat | concat      | Concatenate videos using ffmpeg                 |
 
 
 To get help, just type ``vidtoolz`` or its shortcut ``vid`` to access the cli.
