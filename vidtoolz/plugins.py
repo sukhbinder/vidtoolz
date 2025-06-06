@@ -2,15 +2,21 @@ import pluggy
 from .hookspecs import vidtoolzSpec
 import sys
 from runpy import run_module
+import importlib
 
 pm = pluggy.PluginManager("vidtoolz")
 pm.add_hookspecs(vidtoolzSpec)
+
+DEFAULT_PLUGINS = ("vidtoolz.default_plugins.reverse",)
 
 
 def load_plugins():
     if not getattr(sys, "_called_from_test", False):
         # Only load plugins if not running tests
         pm.load_setuptools_entrypoints("vidtoolz_plugins")
+        for plugin in DEFAULT_PLUGINS:
+            mod = importlib.import_module(plugin)
+            pm.register(mod, plugin)
 
 
 def get_plugins(args):
