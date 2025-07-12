@@ -12,7 +12,7 @@ def get_long_description():
 
 setup(
     name="vidtoolz",
-    version="0.1.3",
+    version="0.1.4",
     description="CLI tools for editing videos in python. A plugin based approach.",
     packages=find_packages(),
     long_description=get_long_description(),
@@ -20,7 +20,7 @@ setup(
     entry_points={
         "console_scripts": ["vid = vidtoolz.cli:main", "vidtoolz = vidtoolz.cli:main"]
     },
-    install_requires=["pluggy", "moviepy", "imageio-ffmpeg"],
+    install_requires=["pluggy", "moviepy", "imageio-ffmpeg", "pip"],
     python_requires=">=3.9",
     author="Sukhbinder Singh",
     url="https://github.com/sukhbinder/vidtoolz",

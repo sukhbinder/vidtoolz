@@ -54,9 +54,7 @@ def install_plugin(
     packages, upgrade=False, editable=None, force_reinstall=False, no_cache_dir=False
 ):
     """Install packages from PyPI into the same environment as vidtoolz."""
-    import subprocess
-
-    args = [sys.executable, "-m", "pip", "install"]
+    args = ["pip", "install"]
     if upgrade:
         args.append("--upgrade")
     if editable:
@@ -67,7 +65,5 @@ def install_plugin(
         args.append("--no-cache-dir")
     args += list(packages)
 
-    try:
-        subprocess.run(args, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"[Install Error] pip failed: {e}")
+    sys.argv = args
+    run_module("pip", run_name="__main__")
