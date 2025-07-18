@@ -25,7 +25,6 @@ def write_clip(video_with_text, output_video_path, fps):
             audio_codec="aac",
             temp_audiofile="temp_audio.m4a",
             remove_temp=True,
-            audio_bitrate="320k",
         )
     except Exception as e:
         sys.exit("Error writing video file: " + str(e))
