@@ -20,11 +20,11 @@ setup(
     entry_points={
         "console_scripts": ["vid = vidtoolz.cli:main", "vidtoolz = vidtoolz.cli:main"]
     },
-    install_requires=["pluggy", "moviepy", "imageio-ffmpeg", "pip"],
+    install_requires=["pluggy", "moviepy==1.0.3", "imageio-ffmpeg", "pip"],
     python_requires=">=3.9",
     author="Sukhbinder Singh",
     url="https://github.com/sukhbinder/vidtoolz",
-    extra_require={
+    extras_require={
         "test": ["pytest"],
     },
     project_urls={

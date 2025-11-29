@@ -1,5 +1,5 @@
 from vidtoolz.hookspecs import hookimpl
-from moviepy import VideoFileClip, vfx, afx
+from moviepy.editor import VideoFileClip, vfx, afx
 
 
 @hookimpl
