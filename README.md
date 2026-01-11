@@ -19,24 +19,51 @@ After installing ``vidtoolz``, install any of the [following plugins](https://py
 
 **VidToolz Plugins**
 
-| Plugins                       | cli name    | Description                                     |
-|-------------------------------|-------------|-------------------------------------------------|
-| vidtoolz-hum-hai-rahi         | h2r         | Tools for Hum Hai Rahi channel                  |
-| vidtoolz-trim                 | trim        | Trim video using ffmpeg                         |
-| vidtoolz-add-text             | addtext     | Add text to a video file                        |
-| vidtoolz-apply-fadein-fadeout | fadeinout   | Apply fade-in fade-out effects on videos        |
-| vidtoolz-youtube-chapters     | chapters    | Write formatted YouTube chapters with text inputs |
-| vidtoolz-noise-and-echo       | echo        | Apply noise reduction and echo effect           |
-| vidtoolz-beats                | beats       | Get beats from an MP3 song                      |
-| vidtoolz-apply-greenscreen | greenscreen | Apply greenscreen video on top of a video       |
-| vidtoolz-shorts | shorts      | Create shorts from long-form videos             |
-| vidtoolz-intro | intro       | Create intro video from a series of videos      |
-| vidtoolz-replace-audio | repaudio    | Replace audio for a video file                  |
-| vidtoolz-vignette | vignette    | Apply vignette on video                         |
-| vidtoolz-volume | volume      | Increase or decrease volume                     |
-| vidtoolz-add-sound | addsound    | Add sound to a video                            |
-| vidtoolz-concat | concat      | Concatenate videos using ffmpeg                 |
-
+| Tool | Description | Category |
+| --- | --- | --- |
+| Reverse | Reverse a video file | Video Effects |
+| Zoomtext | Zoom out the video and display text as caption | Video Effects |
+| Mchap | Make chapters using a list of videos | Video Effects |
+| Lightning | Add lightning effects on video | Video Effects |
+| Flicker | Add flicker  effects on video | Video Effects |
+| Slideshow | Create slideshow with images using ffmpeg | Video Effects |
+| Split | Split a video into two | Video Effects |
+| Normalize | Normalize audio of a video | Audio Enhancements |
+| Shake | Shake a portion of a video | Special Effects |
+| Flip | Flip a vedio vertically or horizontally | Special Effects |
+| Denoise | Denoise audio in a video | Audio Enhancements |
+| Enhance | Enhance audio of a video using ffmpeg | Audio Enhancements |
+| Twitch | Add twitch effect to a video | Video Effects |
+| H2R | Tools for hum hai rahi channel | Video Effects |
+| Vintage | Create vintage effect on videos using ffmpeg | Video Effects |
+| Jitter | Add jitter effect to a video using moviepy | Special Effects |
+| Trim | Trim video using ffmpeg | Video Effects |
+| Rotate | Rotates a video | Special Effects |
+| Metadata | Add metadata to a video for better SEO | Metadata and SEO |
+| Stitch | Stitch videos using music | Music Integration |
+| Highlights | Make highlights from videos | Video Effects |
+| Fade | Add fade in and out for a video using ffmpeg | Video Effects |
+| Fadeinout | Apply fadein-fadeout effects on videos | Video Effects |
+| Soundeffects | Add sound effects to videos | Audio Enhancements |
+| Getframe | Get frame out of a video for thumbnail | Special Effects |
+| Chapters | Write formated youtube chapters with text inputs | Video Effects |
+| Hue | Add a hue to a video using ffmpeg | Video Effects |
+| Echo | Apply noise reduction and echo effect | Audio Enhancements |
+| Beats | Get beats from a mp3 song | Music Analysis |
+| Greenscreen | Apply greenscreen video on top of a video | Special Effects |
+| Shorts | Create shorts from long form videos | Video Effects |
+| Freeze | Use moviepy to flash freeze a frame just like imovie | Special Effects |
+| Intro | Create intro video from a series of videos | Video Effects |
+| Repaudio | Replace audio for a video file | Audio Enhancements |
+| Vignette | Apply Vignette on Video | Video Effects |
+| Addtext | Add text to a video file | Text and Overlay |
+| Volume | Increase decrease volume | Audio Control |
+| Addsound | Add sound to a video | Audio Control |
+| Loudness | Use EBU R128 Loudness Normalization with ffmpeg | Audio Enhancements |
+| Overlay | Add overlay effect on video using ffmpeg | Text and Overlay |
+| Textclip | Create a color clip with overlaid text | Text and Overlay |
+| Compose | Compose Videos using the supplied compose_vid file | Video Composition |
+| Concat | Concat videos using ffmpeg | Video Composition |
 
 To get help, just type ``vidtoolz`` or its shortcut ``vid`` to access the cli.
 
@@ -135,5 +162,3 @@ underscored [vidtoolz_plugin_template_demo]:
 github_username []: sukhbinder
 author_name []: Sukhbinder Singh
 ```
-
-
