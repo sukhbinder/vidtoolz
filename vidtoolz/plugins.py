@@ -14,6 +14,7 @@ DEFAULT_PLUGINS = (
     "vidtoolz.default_plugins.concat",
     "vidtoolz.default_plugins.info",
     "vidtoolz.default_plugins.play",
+    "vidtoolz.default_plugins.speed",
 )
 
 pm = pluggy.PluginManager("vidtoolz")

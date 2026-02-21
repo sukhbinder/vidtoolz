@@ -4,7 +4,6 @@ import tempfile
 from enum import Enum
 from typing import List
 
-
 # ---------------- ENUMS ----------------
 
 
@@ -276,6 +275,71 @@ def reverse_video(input_path, output_path=None, timeout=120):
             "-vf reverse -af areverse "
             f'-y "{output_path}"'  # -y flag to overwrite without prompting
         )
+
+        code, log = run_ffmpeg(cmd, timeout)
+        return code, log, output_path
+
+    except Exception as e:
+        return -1, str(e), ""
+
+
+def change_video_speed(
+    video_path, speed=1.0, output_path=None, audio_mode="adjust", timeout=120
+):
+    """
+    Change video playback speed.
+
+    Parameters:
+    video_path (str): Input video
+    speed (float): Speed factor
+    audio_mode (str):
+        "adjust"  → (default) Adjust audio speed
+        "mute"    → Remove audio
+        "keep"    → Keep original audio unchanged
+    """
+
+    try:
+        speed = float(speed)
+
+        if speed <= 0:
+            raise ValueError("Speed must be > 0")
+
+        if output_path is None:
+            base, ext = os.path.splitext(video_path)
+            output_path = f"{base}_speed_{speed}{ext}"
+
+        video_filter = f"setpts={1/speed}*PTS"
+
+        cmd = f'-i "{video_path}" '
+
+        if audio_mode == "adjust":
+            # Build safe atempo chain (0.5–2.0 per filter)
+            audio_filters = []
+            remaining_speed = speed
+
+            while remaining_speed > 2.0:
+                audio_filters.append("atempo=2.0")
+                remaining_speed /= 2.0
+
+            while remaining_speed < 0.5:
+                audio_filters.append("atempo=0.5")
+                remaining_speed /= 0.5
+
+            audio_filters.append(f"atempo={remaining_speed}")
+            audio_filter_chain = ",".join(audio_filters)
+
+            cmd += f'-vf "{video_filter}" ' f'-af "{audio_filter_chain}" '
+
+        elif audio_mode == "mute":
+            cmd += f'-vf "{video_filter}" ' f"-an "
+
+        elif audio_mode == "keep":
+            cmd += f'-vf "{video_filter}" ' f"-c:a copy "
+
+        else:
+            raise ValueError("audio_mode must be: adjust / mute / keep")
+
+        cmd += f'-y "{output_path}"'
 
         code, log = run_ffmpeg(cmd, timeout)
         return code, log, output_path

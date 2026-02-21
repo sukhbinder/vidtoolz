@@ -220,3 +220,72 @@ def test_play_plugin(capsys):
         # If still running after 2 second → test passes (no crash)
         # If main() crashed → thread exits early
         assert True
+
+
+def test_speed_plugin():
+    """Test the speed plugin with test video data"""
+    test_video = "tests/test_data/Hello-World.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv", ["vidtoolz", "speed", test_video, output_file, "2.0"]
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+        # Verify output file size is reasonable
+        input_size = os.path.getsize(test_video)
+        output_size = os.path.getsize(output_file)
+        assert output_size > 0
+        assert output_size < input_size * 1.5  # Shouldn't be much larger than input
+
+    finally:
+        # Clean up
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_speed_plugin_audio_modes():
+    """Test the speed plugin with different audio modes"""
+    test_video = "tests/test_data/Hello-World.mp4"
+
+    # Test mute mode
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv", ["vidtoolz", "speed", test_video, output_file, "1.5", "-a", "mute"]
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+    finally:
+        # Clean up
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+    # Test keep mode
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv", ["vidtoolz", "speed", test_video, output_file, "0.8", "-a", "keep"]
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+    finally:
+        # Clean up
+        if os.path.exists(output_file):
+            os.unlink(output_file)

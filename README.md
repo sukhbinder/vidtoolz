@@ -30,6 +30,7 @@ vidtoolz comes with several built-in plugins for common video operations:
 | **play** | Play a video file | `vidtoolz play video.mp4` |
 | **reverse** | Reverse a video (uses FFmpeg by default) | `vidtoolz reverse input.mp4 output.mp4` |
 | **scale** | Scale/resize a video | `vidtoolz scale input.mp4 output.mp4 640 480` |
+| **speed** | Change video playback speed | `vidtoolz speed input.mp4 output.mp4 2.0` |
 
 **VidToolz Plugins**
 
@@ -148,6 +149,7 @@ python -m pytest tests/
 # Run specific tests
 python -m pytest tests/test_vidtoolz.py::test_info_plugin -v
 python -m pytest tests/test_vidtoolz.py::test_reverse_plugin -v
+python -m pytest tests/test_vidtoolz.py::test_speed_plugin -v
 ```
 
 The tests use the provided test data (`tests/test_data/`) and verify:
@@ -155,6 +157,30 @@ The tests use the provided test data (`tests/test_data/`) and verify:
 - Proper error handling
 - Argument parsing and validation
 - Performance characteristics
+
+**Speed Plugin**
+--------------
+
+The speed plugin allows you to change video playback speed with flexible audio handling options:
+
+```bash
+# 2x speed with adjusted audio (default)
+vidtoolz speed input.mp4 output.mp4 2.0
+
+# Half speed with muted audio
+vidtoolz speed input.mp4 output.mp4 0.5 -a mute
+
+# 1.5x speed keeping original audio
+vidtoolz speed input.mp4 output.mp4 1.5 -a keep
+
+# Auto-generated output filename
+vidtoolz speed input.mp4 1.8
+```
+
+**Audio Modes**:
+- `adjust` (default): Adjust audio speed to match video speed
+- `mute`: Remove audio from the output video
+- `keep`: Keep original audio unchanged (video only speed change)
 
 **Reverse Plugin Enhancement**
 ------------------------------
