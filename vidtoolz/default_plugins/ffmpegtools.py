@@ -7,6 +7,7 @@ from typing import List
 
 # ---------------- ENUMS ----------------
 
+
 class Position(Enum):
     TopLeft = 1
     TopCenter = 2
@@ -21,6 +22,7 @@ class Position(Enum):
 
 # ---------------- CORE HELPERS ----------------
 
+
 def run_command(command: str, timeout: int = 300):
     """Run a shell command and capture stdout/stderr."""
     try:
@@ -30,7 +32,7 @@ def run_command(command: str, timeout: int = 300):
             stderr=subprocess.PIPE,
             timeout=timeout,
             shell=True,
-            text=True
+            text=True,
         )
         return result.returncode, result.stdout, result.stderr
     except subprocess.TimeoutExpired:
@@ -80,8 +82,10 @@ def convert_to_seconds(time_value):
 
 # ---------------- VIDEO OPERATIONS ----------------
 
-def clip_video(video_path, start=None, end=None, duration=None,
-               output_path=None, timeout=60):
+
+def clip_video(
+    video_path, start=None, end=None, duration=None, output_path=None, timeout=60
+):
     """Clip a video."""
     try:
         if output_path is None:
@@ -93,7 +97,7 @@ def clip_video(video_path, start=None, end=None, duration=None,
         if start is not None:
             cmd += f"-ss {convert_to_seconds(start)} "
 
-        cmd += f"-i \"{video_path}\" "
+        cmd += f'-i "{video_path}" '
 
         if end is None and duration is not None:
             end = convert_to_seconds(start or 0) + convert_to_seconds(duration)
@@ -101,7 +105,7 @@ def clip_video(video_path, start=None, end=None, duration=None,
         if end is not None:
             cmd += f"-to {convert_to_seconds(end)} "
 
-        cmd += f"-y \"{output_path}\""
+        cmd += f'-y "{output_path}"'
 
         code, log = run_ffmpeg(cmd, timeout)
         return code, log, output_path
@@ -110,19 +114,14 @@ def clip_video(video_path, start=None, end=None, duration=None,
         return -1, str(e), ""
 
 
-def scale_video(video_path, width, height=-2,
-                output_path=None, timeout=120):
+def scale_video(video_path, width, height=-2, output_path=None, timeout=120):
     """Scale a video."""
     try:
         if output_path is None:
             base, ext = os.path.splitext(video_path)
             output_path = f"{base}_scaled{ext}"
 
-        cmd = (
-            f"-i \"{video_path}\" "
-            f"-vf scale={width}:{height} "
-            f"-y \"{output_path}\""
-        )
+        cmd = f'-i "{video_path}" ' f"-vf scale={width}:{height} " f'-y "{output_path}"'
 
         code, log = run_ffmpeg(cmd, timeout)
         return code, log, output_path
@@ -131,12 +130,16 @@ def scale_video(video_path, width, height=-2,
         return -1, str(e), ""
 
 
-def overlay_video(background_video, overlay_video,
-                  output_path=None,
-                  position=Position.TopLeft,
-                  dx=0, dy=0,
-                  overlay_scale=None,
-                  timeout=180):
+def overlay_video(
+    background_video,
+    overlay_video,
+    output_path=None,
+    position=Position.TopLeft,
+    dx=0,
+    dy=0,
+    overlay_scale=None,
+    timeout=180,
+):
     """Overlay one video onto another."""
     try:
         if output_path is None:
@@ -177,10 +180,10 @@ def overlay_video(background_video, overlay_video,
         filter_complex = ";".join(filter_parts)
 
         cmd = (
-            f"-i \"{background_video}\" -i \"{overlay_video}\" "
-            f"-filter_complex \"{filter_complex}\" "
-            f"-map \"[vout]\" -map \"[aout]\" "
-            f"-y \"{output_path}\""
+            f'-i "{background_video}" -i "{overlay_video}" '
+            f'-filter_complex "{filter_complex}" '
+            f'-map "[vout]" -map "[aout]" '
+            f'-y "{output_path}"'
         )
 
         code, log = run_ffmpeg(cmd, timeout)
@@ -190,10 +193,7 @@ def overlay_video(background_video, overlay_video,
         return -1, str(e), ""
 
 
-def concat_videos(input_files: List[str],
-                  output_path=None,
-                  fast=True,
-                  timeout=120):
+def concat_videos(input_files: List[str], output_path=None, fast=True, timeout=120):
     """Concatenate videos."""
     try:
         if output_path is None:
@@ -205,26 +205,28 @@ def concat_videos(input_files: List[str],
                 raise FileNotFoundError(f"{file} not found")
 
         if fast:
-            with tempfile.NamedTemporaryFile(delete=False, mode="w", encoding="utf-8") as f:
+            with tempfile.NamedTemporaryFile(
+                delete=False, mode="w", encoding="utf-8"
+            ) as f:
                 for file in input_files:
                     f.write(f"file '{os.path.abspath(file)}'\n")
                 list_path = f.name
 
-            cmd = f"-f concat -safe 0 -i \"{list_path}\" -c copy -y \"{output_path}\""
+            cmd = f'-f concat -safe 0 -i "{list_path}" -c copy -y "{output_path}"'
             code, log = run_ffmpeg(cmd, timeout)
 
             os.remove(list_path)
             return code, log, output_path
 
         else:
-            inputs = " ".join([f"-i \"{f}\"" for f in input_files])
+            inputs = " ".join([f'-i "{f}"' for f in input_files])
             filter_str = f"concat=n={len(input_files)}:v=1:a=1[vout][aout]"
 
             cmd = (
                 f"{inputs} "
-                f"-filter_complex \"{filter_str}\" "
-                f"-map \"[vout]\" -map \"[aout]\" "
-                f"-y \"{output_path}\""
+                f'-filter_complex "{filter_str}" '
+                f'-map "[vout]" -map "[aout]" '
+                f'-y "{output_path}"'
             )
 
             code, log = run_ffmpeg(cmd, timeout)
@@ -236,9 +238,10 @@ def concat_videos(input_files: List[str],
 
 # ---------------- INFO / PLAYBACK ----------------
 
+
 def get_video_info(video_path):
     """Retrieve stream info via FFprobe."""
-    cmd = f"-v error -show_streams -of json \"{video_path}\""
+    cmd = f'-v error -show_streams -of json "{video_path}"'
     return run_ffprobe(cmd)
 
 
@@ -252,7 +255,7 @@ def play_video(video_path, speed=1.0, loop=0):
     if speed != 1:
         cmd += f"-vf setpts={1/speed}*PTS -af atempo={speed} "
 
-    cmd += f"\"{video_path}\""
+    cmd += f'"{video_path}"'
 
     return run_ffplay(cmd)
 
@@ -270,7 +273,7 @@ def reverse_video(input_path, output_path=None, timeout=120):
         # FFmpeg command to reverse video and audio
         cmd = (
             f'-i "{input_path}" '
-            '-vf reverse -af areverse '
+            "-vf reverse -af areverse "
             f'-y "{output_path}"'  # -y flag to overwrite without prompting
         )
 
@@ -279,4 +282,3 @@ def reverse_video(input_path, output_path=None, timeout=120):
 
     except Exception as e:
         return -1, str(e), ""
-

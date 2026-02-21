@@ -8,9 +8,14 @@ from moviepy import VideoFileClip, vfx, afx
 def register_commands(subparser):
     reverse_parser = subparser.add_parser("reverse", description="Reverse a video file")
     reverse_parser.add_argument("input_file", help="Path to the input video file")
-    reverse_parser.add_argument("output_file", nargs="?", help="Path to the output video file (optional)")
-    reverse_parser.add_argument("--use-moviepy", action="store_true", 
-                               help="Use MoviePy instead of FFmpeg (slower but may work better for some files)")
+    reverse_parser.add_argument(
+        "output_file", nargs="?", help="Path to the output video file (optional)"
+    )
+    reverse_parser.add_argument(
+        "--use-moviepy",
+        action="store_true",
+        help="Use MoviePy instead of FFmpeg (slower but may work better for some files)",
+    )
     reverse_parser.set_defaults(func=reverse_video_command)
 
 
@@ -20,7 +25,9 @@ def reverse_video_command(args):
             # Use the original MoviePy implementation
             clip = VideoFileClip(args.input_file)
             new_clip = clip.time_transform(
-                lambda t: clip.duration - t, apply_to=["mask", "audio"], keep_duration=True
+                lambda t: clip.duration - t,
+                apply_to=["mask", "audio"],
+                keep_duration=True,
             )
 
             output_path = args.output_file
@@ -35,17 +42,16 @@ def reverse_video_command(args):
         else:
             # Use the new FFmpeg implementation (default)
             code, log, output_path = ffmpeg_reverse_video(
-                args.input_file,
-                output_path=args.output_file
+                args.input_file, output_path=args.output_file
             )
-            
+
             if code == 0:
                 print(f"Video reversed and saved to {output_path}")
             else:
                 print(f"Error reversing video. Return code: {code}")
                 print("FFmpeg output:")
                 print(log)
-                
+
     except FileNotFoundError:
         print(f"Error: Input file {args.input_file} not found.")
     except Exception as e:

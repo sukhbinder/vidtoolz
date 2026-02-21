@@ -13,7 +13,7 @@ def register_commands(subparser):
 def get_video_info_command(args):
     try:
         code, log = get_video_info(args.video_file)
-        
+
         if code == 0:
             print("Video information:")
             print(log)
@@ -21,7 +21,7 @@ def get_video_info_command(args):
             print(f"Error getting video info. Return code: {code}")
             print("FFprobe output:")
             print(log)
-            
+
     except FileNotFoundError:
         print(f"Error: Video file {args.video_file} not found.")
     except Exception as e:

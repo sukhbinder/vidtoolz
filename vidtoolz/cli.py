@@ -33,7 +33,7 @@ def install_cmd(args):
 def main():
     # Ensure FFmpeg is available before doing anything else
     ensure_ffmpeg_available()
-    
+
     parser = argparse.ArgumentParser(
         description="Video Tools for editing videos using python",
         formatter_class=CustomHelpFormatter,
