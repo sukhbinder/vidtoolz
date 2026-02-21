@@ -17,6 +17,20 @@ After installing ``vidtoolz``, install any of the [following plugins](https://py
 
 
 
+**Default Plugins**
+
+vidtoolz comes with several built-in plugins for common video operations:
+
+| Plugin | Description | Command |
+| --- | --- | --- |
+| **info** | Get video information (codecs, duration, etc.) | `vidtoolz info video.mp4` |
+| **clip** | Clip a portion of a video | `vidtoolz clip input.mp4 output.mp4 -s 00:00:10 -d 00:00:05` |
+| **concat** | Concatenate multiple videos | `vidtoolz ffconcat video1.mp4 video2.mp4 -o output.mp4` |
+| **overlay** | Overlay one video on another | `vidtoolz ffoverlay background.mp4 overlay.mp4 -o output.mp4` |
+| **play** | Play a video file | `vidtoolz play video.mp4` |
+| **reverse** | Reverse a video (uses FFmpeg by default) | `vidtoolz reverse input.mp4 output.mp4` |
+| **scale** | Scale/resize a video | `vidtoolz scale input.mp4 output.mp4 640 480` |
+
 **VidToolz Plugins**
 
 | Tool | Description | Category |
@@ -119,6 +133,43 @@ vid install vidtoolz-trim
 *   Extensive plugin support for customizing and extending the toolset
 *   Integration with popular Python libraries and frameworks
 *   Support for multiple Python versions (>=3.9)
+*   Comprehensive testing suite with integration tests for all default plugins
+*   FFmpeg-based operations for better performance
+
+**Testing**
+----------
+
+vidtoolz includes a comprehensive test suite that covers all default plugins:
+
+```bash
+# Run all tests
+python -m pytest tests/
+
+# Run specific tests
+python -m pytest tests/test_vidtoolz.py::test_info_plugin -v
+python -m pytest tests/test_vidtoolz.py::test_reverse_plugin -v
+```
+
+The tests use the provided test data (`tests/test_data/`) and verify:
+- Output file creation and validation
+- Proper error handling
+- Argument parsing and validation
+- Performance characteristics
+
+**Reverse Plugin Enhancement**
+------------------------------
+
+The reverse plugin now uses FFmpeg by default for much faster performance:
+
+```bash
+# Fast FFmpeg-based reversal (default)
+vidtoolz reverse input.mp4 output.mp4
+
+# Original MoviePy-based reversal (slower but may work better for some files)
+vidtoolz reverse input.mp4 output.mp4 --use-moviepy
+```
+
+The FFmpeg version typically completes in seconds vs minutes for the MoviePy version.
 
 **Requirements**
 ----------------

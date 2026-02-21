@@ -256,3 +256,27 @@ def play_video(video_path, speed=1.0, loop=0):
 
     return run_ffplay(cmd)
 
+
+def reverse_video(input_path, output_path=None, timeout=120):
+    """Reverse a video using FFmpeg."""
+    try:
+        if output_path is None:
+            base, ext = os.path.splitext(input_path)
+            output_path = f"{base}_reversed{ext}"
+
+        if not os.path.exists(input_path):
+            raise FileNotFoundError(f"{input_path} not found")
+
+        # FFmpeg command to reverse video and audio
+        cmd = (
+            f'-i "{input_path}" '
+            '-vf reverse -af areverse '
+            f'-y "{output_path}"'  # -y flag to overwrite without prompting
+        )
+
+        code, log = run_ffmpeg(cmd, timeout)
+        return code, log, output_path
+
+    except Exception as e:
+        return -1, str(e), ""
+
