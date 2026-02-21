@@ -1,5 +1,34 @@
 import os
 import sys
+import subprocess
+
+# Ensure FFmpeg is available, either from system or via static-ffmpeg
+def ensure_ffmpeg_available():
+    """
+    Ensure FFmpeg is available by checking if it's in the system path,
+    and if not, use static-ffmpeg as a fallback.
+    """
+    try:
+        # Check if ffmpeg is already available in the system
+        subprocess.run(["ffmpeg", "-version"], 
+                      stdout=subprocess.DEVNULL, 
+                      stderr=subprocess.DEVNULL,
+                      check=True)
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        try:
+            # Try to use static-ffmpeg as fallback
+            import static_ffmpeg
+            static_ffmpeg.add_paths()
+            
+            # Verify it worked
+            subprocess.run(["ffmpeg", "-version"], 
+                          stdout=subprocess.DEVNULL, 
+                          stderr=subprocess.DEVNULL,
+                          check=True)
+            return True
+        except Exception as e:
+            sys.exit(f"Error: FFmpeg is not available and static-ffmpeg fallback failed: {e}")
 
 
 def determine_output_path(input_file, output_file, suffix):
