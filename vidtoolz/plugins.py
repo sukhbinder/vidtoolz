@@ -6,7 +6,15 @@ from runpy import run_module
 
 from .hookspecs import vidtoolzSpec
 
-DEFAULT_PLUGINS = ("vidtoolz.default_plugins.reverse",)
+DEFAULT_PLUGINS = (
+    "vidtoolz.default_plugins.reverse",
+    "vidtoolz.default_plugins.clip",
+    "vidtoolz.default_plugins.scale",
+    "vidtoolz.default_plugins.overlay",
+    "vidtoolz.default_plugins.concat",
+    "vidtoolz.default_plugins.info",
+    "vidtoolz.default_plugins.play",
+)
 
 pm = pluggy.PluginManager("vidtoolz")
 pm.add_hookspecs(vidtoolzSpec)
