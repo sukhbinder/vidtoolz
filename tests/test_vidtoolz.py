@@ -1,4 +1,3 @@
-import sys
 import os
 import tempfile
 from unittest import mock
@@ -184,11 +183,6 @@ def test_scale_plugin():
             os.unlink(output_file)
 
 
-import pytest
-
-# ... (keep existing imports)
-
-
 def test_reverse_plugin():
     """Test the reverse plugin with test video data (now using FFmpeg by default)"""
     test_video = "tests/test_data/Hello-World.mp4"
@@ -223,7 +217,6 @@ def test_play_plugin(capsys):
         thread = threading.Thread(target=main, daemon=True)
         thread.start()
         thread.join(timeout=2)
-
-        # If still running after 1 second → test passes (no crash)
+        # If still running after 2 second → test passes (no crash)
         # If main() crashed → thread exits early
         assert True
