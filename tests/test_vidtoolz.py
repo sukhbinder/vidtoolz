@@ -546,3 +546,110 @@ def test_overlay_without_duration_still_works():
     finally:
         if os.path.exists(output_file):
             os.unlink(output_file)
+
+
+def test_concat_with_input_list_file():
+    """Test ffconcat plugin with input list file"""
+    test_video1 = "tests/test_data/Hello-World.mp4"
+    test_video2 = "tests/test_data/test.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
+        input_list_file = f.name
+        f.write(f"{test_video1}\n")
+        f.write(f"{test_video2}\n")
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffconcat",
+                "--input-list",
+                input_list_file,
+                "--no-fast",
+                "-o",
+                output_file,
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+        # Verify output file is larger than individual inputs (since we concatenated)
+        input1_size = os.path.getsize(test_video1)
+        input2_size = os.path.getsize(test_video2)
+        output_size = os.path.getsize(output_file)
+        assert output_size > input1_size
+        assert output_size > input2_size
+
+    finally:
+        # Clean up
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+        if os.path.exists(input_list_file):
+            os.unlink(input_list_file)
+
+
+def test_concat_with_positional_and_input_list():
+    """Test ffconcat plugin combining positional args and input list file"""
+    test_video1 = "tests/test_data/Hello-World.mp4"
+    test_video2 = "tests/test_data/test.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
+        input_list_file = f.name
+        f.write(f"{test_video2}\n")
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffconcat",
+                test_video1,
+                "--input-list",
+                input_list_file,
+                "--no-fast",
+                "-o",
+                output_file,
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+        # Verify output file is larger than individual inputs
+        input1_size = os.path.getsize(test_video1)
+        input2_size = os.path.getsize(test_video2)
+        output_size = os.path.getsize(output_file)
+        assert output_size > input1_size
+        assert output_size > input2_size
+
+    finally:
+        # Clean up
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+        if os.path.exists(input_list_file):
+            os.unlink(input_list_file)
+
+
+def test_concat_with_no_input_files():
+    """Test ffconcat plugin with no input files shows error"""
+    with mock.patch(
+        "sys.argv",
+        [
+            "vidtoolz",
+            "ffconcat",
+            "-o",
+            "output.mp4",
+        ],
+    ):
+        main()
+        # Should not crash, just print error message

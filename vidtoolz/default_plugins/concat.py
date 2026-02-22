@@ -9,7 +9,10 @@ def register_commands(subparser):
         "ffconcat", description="Concatenate video files using FFmpeg"
     )
     concat_parser.add_argument(
-        "input_files", nargs="+", help="Path to input video files"
+        "input_files", nargs="*", help="Path to input video files"
+    )
+    concat_parser.add_argument(
+        "-i", "--input-list", dest="input_list", help="Path to a text file containing input file paths (one per line)"
     )
     concat_parser.add_argument(
         "-o", "--output", help="Path to the output video file (optional)"
@@ -26,8 +29,19 @@ def register_commands(subparser):
 
 def concat_video_command(args):
     try:
+        input_files = list(args.input_files) if args.input_files else []
+
+        if args.input_list:
+            with open(args.input_list, "r") as f:
+                file_list = [line.strip() for line in f if line.strip()]
+                input_files.extend(file_list)
+
+        if not input_files:
+            print("Error: No input files provided. Use positional arguments or -i/--input-list.")
+            return
+
         code, log, output_path = concat_videos(
-            args.input_files, output_path=args.output, fast=args.fast
+            input_files, output_path=args.output, fast=args.fast
         )
 
         if code == 0:
