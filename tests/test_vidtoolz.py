@@ -289,3 +289,260 @@ def test_speed_plugin_audio_modes():
         # Clean up
         if os.path.exists(output_file):
             os.unlink(output_file)
+
+
+# Integration tests for new overlay functionality (duration, fade, normalized scale)
+
+
+def test_overlay_with_duration():
+    """Test overlay plugin with duration option"""
+    background_video = "tests/test_data/Hello-World.mp4"
+    overlay_video = "tests/test_data/test.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffoverlay",
+                background_video,
+                overlay_video,
+                output_file,
+                "-p",
+                "TopLeft",
+                "-d",
+                "2",
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+        # Verify output duration matches background (not overlay duration)
+        import subprocess
+        result = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "default=noprint_wrappers=1:nokey=1",
+                output_file,
+            ],
+            capture_output=True,
+            text=True,
+        )
+        output_duration = float(result.stdout.strip())
+        # Output should be close to background video duration (~10s)
+        assert 9.5 < output_duration < 10.5
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_overlay_with_normalized_scale():
+    """Test overlay plugin with normalized scale option"""
+    background_video = "tests/test_data/Hello-World.mp4"
+    overlay_video = "tests/test_data/test.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffoverlay",
+                background_video,
+                overlay_video,
+                output_file,
+                "-p",
+                "TopLeft",
+                "-n",
+                "0.3",
+                "0.3",
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+        # Verify output video maintains background dimensions (1920x1080)
+        import subprocess
+        result = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-select_streams",
+                "v:0",
+                "-show_entries",
+                "stream=width,height",
+                "-of",
+                "csv=p=0",
+                output_file,
+            ],
+            capture_output=True,
+            text=True,
+        )
+        width, height = map(int, result.stdout.strip().split(","))
+        # Output video should maintain background dimensions
+        assert width == 1920
+        assert height == 1080
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_overlay_with_fade_duration():
+    """Test overlay plugin with custom fade duration"""
+    background_video = "tests/test_data/Hello-World.mp4"
+    overlay_video = "tests/test_data/test.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffoverlay",
+                background_video,
+                overlay_video,
+                output_file,
+                "-p",
+                "TopLeft",
+                "-d",
+                "3",
+                "-f",
+                "1.0",
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_overlay_with_all_new_options():
+    """Test overlay plugin with duration, fade, and normalized scale combined"""
+    background_video = "tests/test_data/Hello-World.mp4"
+    overlay_video = "tests/test_data/test.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffoverlay",
+                background_video,
+                overlay_video,
+                output_file,
+                "-p",
+                "Center",
+                "-n",
+                "0.5",
+                "0.5",
+                "-d",
+                "2",
+                "-f",
+                "0.5",
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+        # Verify output file size is reasonable
+        output_size = os.path.getsize(output_file)
+        assert output_size > 0
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_overlay_with_absolute_scale_and_duration():
+    """Test overlay plugin with absolute scale and duration"""
+    background_video = "tests/test_data/Hello-World.mp4"
+    overlay_video = "tests/test_data/test.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffoverlay",
+                background_video,
+                overlay_video,
+                output_file,
+                "-p",
+                "TopRight",
+                "-s",
+                "200",
+                "200",
+                "-d",
+                "2",
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_overlay_without_duration_still_works():
+    """Test that overlay without duration option still works (backward compatibility)"""
+    background_video = "tests/test_data/test.mp4"
+    overlay_video = "tests/test_data/Hello-World.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "ffoverlay",
+                background_video,
+                overlay_video,
+                output_file,
+                "-p",
+                "BottomRight",
+            ],
+        ):
+            main()
+
+        # Verify output file was created
+        assert os.path.exists(output_file)
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)

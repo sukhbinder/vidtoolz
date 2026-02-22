@@ -137,6 +137,9 @@ def overlay_video(
     dx=0,
     dy=0,
     overlay_scale=None,
+    normalized_scale=None,
+    duration=None,
+    fade_duration=0.5,
     timeout=180,
 ):
     """Overlay one video onto another."""
@@ -144,6 +147,20 @@ def overlay_video(
         if output_path is None:
             base, ext = os.path.splitext(background_video)
             output_path = f"{base}_overlay{ext}"
+
+        # Get background video dimensions for normalized scale
+        bg_width, bg_height = None, None
+        if normalized_scale:
+            code, out, err = run_command(
+                f'ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 "{background_video}"'
+            )
+            if code == 0 and out.strip():
+                try:
+                    bg_width, bg_height = map(int, out.strip().split(","))
+                except ValueError:
+                    return -1, f"Failed to parse background video dimensions: {out}", ""
+            else:
+                return -1, f"Failed to get background video dimensions: {err}", ""
 
         if position == Position.TopLeft:
             x, y = f"{dx}", f"{dy}"
@@ -165,16 +182,44 @@ def overlay_video(
             x, y = f"(W-w)/2+{dx}", f"(H-h)/2+{dy}"
 
         filter_parts = []
+        overlay_input = "[1:v]"
+        current_label = "[1:v]"
 
+        # Apply normalized scale first if specified
+        if normalized_scale:
+            if bg_width and bg_height:
+                ow = int(bg_width * normalized_scale[0])
+                oh = int(bg_height * normalized_scale[1])
+                filter_parts.append(f"[1:v]scale={ow}:{oh}[ovr_norm]")
+                current_label = "[ovr_norm]"
+                overlay_input = "[ovr_norm]"
+
+        # Apply absolute scale if specified (overrides normalized scale output)
         if overlay_scale:
             ow, oh = overlay_scale
-            filter_parts.append(f"[1:v]scale={ow}:{oh}[ovr]")
+            scale_input = current_label
+            filter_parts.append(f"{scale_input}scale={ow}:{oh}[ovr]")
             overlay_input = "[ovr]"
+
+        # Apply duration trim and fade-out if specified
+        if duration:
+            trim_input = overlay_input
+            # Trim the overlay video and add fade-out at the end
+            filter_parts.append(
+                f"{trim_input}trim=duration={duration},setpts=PTS-STARTPTS,fade=t=out:st={duration-fade_duration}:d={fade_duration}[ovr_trim]"
+            )
+            overlay_input = "[ovr_trim]"
+
+            # Trim and fade overlay audio to match video
+            filter_parts.append(
+                f"[1:a]atrim=duration={duration},asetpts=PTS-STARTPTS,afade=t=out:st={duration-fade_duration}:d={fade_duration}[a_trim]"
+            )
+            audio_input = "[a_trim]"
         else:
-            overlay_input = "[1:v]"
+            audio_input = "[1:a]"
 
         filter_parts.append(f"[0:v]{overlay_input}overlay={x}:{y}[vout]")
-        filter_parts.append(f"[0:a][1:a]amix=inputs=2[aout]")
+        filter_parts.append(f"[0:a]{audio_input}amix=inputs=2:duration=first[aout]")
 
         filter_complex = ";".join(filter_parts)
 
