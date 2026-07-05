@@ -239,3 +239,28 @@ underscored [vidtoolz_plugin_template_demo]:
 github_username []: sukhbinder
 author_name []: Sukhbinder Singh
 ```
+
+## Contibution and Development
+
+To contribute to this tool, first checkout the code. Then create a new virtual environment:
+
+
+```bash
+# To clone
+git clone https://github.com/sukhbinder/vidtoolz.git
+
+# And create a new virtual environment
+cd vidtoolz
+python -m venv venv
+source venv/bin/activate
+```
+
+Now install the dependencies and test dependencies:
+```bash
+pip install -e '.[test]'
+```
+
+To run the tests:
+```bash
+python -m pytest
+```
