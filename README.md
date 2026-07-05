@@ -240,7 +240,7 @@ github_username []: sukhbinder
 author_name []: Sukhbinder Singh
 ```
 
-## Contibution and Development
+## Development
 
 To contribute to this tool, first checkout the code. Then create a new virtual environment:
 
