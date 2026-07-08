@@ -253,6 +253,9 @@ git clone https://github.com/sukhbinder/vidtoolz.git
 cd vidtoolz
 python -m venv venv
 source venv/bin/activate
+
+# In windows
+venv\Scripts\activate
 ```
 
 Now install the dependencies and test dependencies:
