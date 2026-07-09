@@ -25,8 +25,8 @@ vidtoolz comes with several built-in plugins for common video operations:
 | --- | --- | --- |
 | **info** | Get video information (codecs, duration, etc.) | `vidtoolz info video.mp4` |
 | **clip** | Clip a portion of a video | `vidtoolz clip input.mp4 output.mp4 -s 00:00:10 -d 00:00:05` |
-| **concat** | Concatenate multiple videos | `vidtoolz ffconcat video1.mp4 video2.mp4 -o output.mp4` |
-| **overlay** | Overlay one video on another | `vidtoolz ffoverlay background.mp4 overlay.mp4 -o output.mp4` |
+| **ffconcat** | Concatenate multiple videos | `vidtoolz ffconcat video1.mp4 video2.mp4 -o output.mp4` |
+| **ffoverlay** | Overlay one video on another | `vidtoolz ffoverlay background.mp4 overlay.mp4 -o output.mp4` |
 | **play** | Play a video file | `vidtoolz play video.mp4` |
 | **reverse** | Reverse a video (uses FFmpeg by default) | `vidtoolz reverse input.mp4 output.mp4` |
 | **scale** | Scale/resize a video | `vidtoolz scale input.mp4 output.mp4 640 480` |
