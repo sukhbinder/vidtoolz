@@ -1,3 +1,5 @@
+import os
+
 from vidtoolz.hookspecs import hookimpl
 import argparse
 from .ffmpegtools import reverse_video as ffmpeg_reverse_video
