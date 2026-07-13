@@ -208,6 +208,7 @@ def test_reverse_plugin():
         if os.path.exists(output_file):
             os.unlink(output_file)
 
+
 def test_reverse_plugin_moviepy():
     test_video = "tests/test_data/Hello-World.mp4"
 
