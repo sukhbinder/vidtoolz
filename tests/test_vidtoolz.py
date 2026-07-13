@@ -208,6 +208,32 @@ def test_reverse_plugin():
         if os.path.exists(output_file):
             os.unlink(output_file)
 
+def test_reverse_plugin_moviepy():
+    test_video = "tests/test_data/Hello-World.mp4"
+
+    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
+        output_file = tmp.name
+
+    try:
+        with mock.patch(
+            "sys.argv",
+            [
+                "vidtoolz",
+                "reverse",
+                test_video,
+                output_file,
+                "--use-moviepy",
+            ],
+        ):
+            main()
+
+        assert os.path.exists(output_file)
+        assert os.path.getsize(output_file) > 0
+
+    finally:
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
 
 def test_play_plugin(capsys):
     """Test the play plugin with test video data"""
