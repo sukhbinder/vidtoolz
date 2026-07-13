@@ -1,4 +1,3 @@
-
 [![PyPI](https://img.shields.io/pypi/v/vidtoolz.svg)](https://pypi.org/project/vidtoolz/)
 [![Changelog](https://img.shields.io/github/v/release/sukhbinder/vidtoolz?include_prereleases&label=changelog)](https://github.com/sukhbinder/vidtoolz/releases)
 [![Tests](https://github.com/sukhbinder/vidtoolz/workflows/Test/badge.svg)](https://github.com/sukhbinder/vidtoolz/actions?query=workflow%3ATest)
@@ -11,7 +10,7 @@ Make videos using python. A plugin-based CLI toolset for editing, authering vide
 **Overview**
 -----------
 
-vidtoolz is a collection of command-line tools designed to make videos and edit videos easier. The project takes a plugin-based approach, allowing users to extend its functionality by creating custom plugins.
+vidtoolz is a collection of command-line tools designed to make videos and edit videos easier. The project takes a plugin-based approach, allowing users to extend its functionality by creating custom [...]
 
 After installing ``vidtoolz``, install any of the [following plugins](https://pypi.org/search/?q=vidtoolz).
 
@@ -267,3 +266,4 @@ To run the tests:
 ```bash
 python -m pytest
 ```
+
