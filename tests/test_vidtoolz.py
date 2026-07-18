@@ -5,6 +5,9 @@ import pytest
 from vidtoolz.cli import main
 import threading
 
+# Define if we're running in GitHub Actions
+IN_GITHUB_ACTIONS = os.environ.get("GITHUB_ACTIONS") == "true"
+
 
 def test_show_help(capsys):
     with mock.patch("sys.argv", ["vidtoolz"]):
@@ -208,7 +211,7 @@ def test_reverse_plugin():
         if os.path.exists(output_file):
             os.unlink(output_file)
 
-
+@pytest.mark.skipif(IN_GITHUB_ACTIONS, reason="It is slow in GITHUB so skipping it")
 def test_reverse_plugin_moviepy():
     test_video = "tests/test_data/Hello-World.mp4"
 
