@@ -10,7 +10,7 @@ Make videos using python. A plugin-based CLI toolset for editing, authering vide
 **Overview**
 -----------
 
-vidtoolz is a collection of command-line tools designed to make videos and edit videos easier. The project takes a plugin-based approach, allowing users to extend its functionality by creating custom [...]
+vidtoolz is a collection of command-line tools designed to make videos and edit videos easier. The project takes a plugin-based approach, allowing users to extend its functionality by creating custom plugins.
 
 After installing ``vidtoolz``, install any of the [following plugins](https://pypi.org/search/?q=vidtoolz).
 
