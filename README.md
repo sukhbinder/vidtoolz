@@ -1,4 +1,3 @@
-
 [![PyPI](https://img.shields.io/pypi/v/vidtoolz.svg)](https://pypi.org/project/vidtoolz/)
 [![Changelog](https://img.shields.io/github/v/release/sukhbinder/vidtoolz?include_prereleases&label=changelog)](https://github.com/sukhbinder/vidtoolz/releases)
 [![Tests](https://github.com/sukhbinder/vidtoolz/workflows/Test/badge.svg)](https://github.com/sukhbinder/vidtoolz/actions?query=workflow%3ATest)
@@ -267,3 +266,4 @@ To run the tests:
 ```bash
 python -m pytest
 ```
+
