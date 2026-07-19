@@ -1,3 +1,4 @@
+import platform
 import os
 import subprocess
 import tempfile
@@ -53,6 +54,16 @@ def run_ffprobe(cmd: str, timeout: int = 60):
     log = f"{command}\n{out}\n{err}"
     return code, log
 
+"""
+def play_file(file_path)
+    operating system = platform.system()
+    if operating_system == "Windows":
+        command = f"start {file_path}"
+    elif operating_system == "Darwin":  # macOS
+        command = f"open {file_path}"
+    else:  # Linux and other Unix-like systems
+        command = f"xdg-open {file_path}"
+"""
 
 def run_ffplay(cmd: str, timeout: int = 60):
     """Execute FFplay command."""
