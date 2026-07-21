@@ -66,8 +66,17 @@ def play_file(file_path)
 """
 
 def run_ffplay(cmd: str, timeout: int = 60):
-    """Execute FFplay command."""
-    command = f"ffplay {cmd}"
+    
+    operating_system = platform.system()
+    
+    if operating_system == "Darwin":  # macOS
+        """Execute FFplay command."""
+        command = f"ffplay {cmd}"
+    elif operating_system == "Windows":
+        command = f'start"" "{cmd}"'
+    else:  # Linux and other Unix-like systems
+        return -1, "FFplay is not supported on this operating system."
+ 
     code, out, err = run_command(command, timeout)
     log = f"{command}\n{out}\n{err}"
     return code, log
