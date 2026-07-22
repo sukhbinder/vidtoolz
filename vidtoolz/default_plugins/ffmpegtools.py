@@ -1,11 +1,14 @@
-import platform
 import os
 import subprocess
 import tempfile
 from enum import Enum
 from typing import List
+import platform
 
-# ---------------- ENUMS ----------------
+
+def is_windows():
+    operating_system = platform.system()
+    return operating_system == "Windows"
 
 
 class Position(Enum):
@@ -54,29 +57,13 @@ def run_ffprobe(cmd: str, timeout: int = 60):
     log = f"{command}\n{out}\n{err}"
     return code, log
 
-"""
-def play_file(file_path)
-    operating system = platform.system()
-    if operating_system == "Windows":
-        command = f"start {file_path}"
-    elif operating_system == "Darwin":  # macOS
-        command = f"open {file_path}"
-    else:  # Linux and other Unix-like systems
-        command = f"xdg-open {file_path}"
-"""
 
 def run_ffplay(cmd: str, timeout: int = 60):
-    
-    operating_system = platform.system()
-    
-    if operating_system == "Darwin":  # macOS
-        """Execute FFplay command."""
+    """Execute FFplay command."""
+    if is_windows():
+        command = f'start "" {cmd}'
+    else:
         command = f"ffplay {cmd}"
-    elif operating_system == "Windows":
-        command = f'start"" "{cmd}"'
-    else:  # Linux and other Unix-like systems
-        return -1, "FFplay is not supported on this operating system."
- 
     code, out, err = run_command(command, timeout)
     log = f"{command}\n{out}\n{err}"
     return code, log
@@ -313,13 +300,11 @@ def play_video(video_path, speed=1.0, loop=0):
     """Play video using FFplay."""
     speed = float(speed)
     loop = int(loop)
-
-    cmd = f"-loop {loop} "
+    cmd = f'"{video_path}"'
+    cmd += f" -loop {loop} "
 
     if speed != 1:
         cmd += f"-vf setpts={1/speed}*PTS -af atempo={speed} "
-
-    cmd += f'"{video_path}"'
 
     return run_ffplay(cmd)
 
